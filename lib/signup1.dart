@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:hack1/network_image.dart';
+
+import 'Home.dart'; // Import the home page widget
 
 class SignupOnePage extends StatelessWidget {
   static const String path = "lib/src/pages/login/signup1.dart";
@@ -11,12 +14,7 @@ class SignupOnePage extends StatelessWidget {
       backgroundColor: Colors.blue.shade100,
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 30.0),
-          CircleAvatar(
-            maxRadius: 50,
-            backgroundColor: Colors.transparent,
-            child: Icon(Icons.person, size: 50, color: Colors.blue),
-          ),
+          SizedBox(height: 100.0),
           SizedBox(height: 20.0),
           _buildLoginForm(context),
         ],
@@ -45,7 +43,7 @@ class SignupOnePage extends StatelessWidget {
           ClipPath(
             clipper: RoundedDiagonalPathClipper(),
             child: Container(
-              height: 400,
+              height: 450,
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40.0)),
@@ -159,15 +157,15 @@ class SignupOnePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
-                radius: 40.0,
-                backgroundColor: Colors.blue.shade600,
-                child: Icon(Icons.person),
+              const CircleAvatar(
+                maxRadius: 50,
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.train, size: 80, color: Colors.black),
               ),
             ],
           ),
           SizedBox(
-            height: 420,
+            height: 440,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
@@ -179,6 +177,10 @@ class SignupOnePage extends StatelessWidget {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Form is valid, perform signup logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()), // Navigate to home page
+                    );
                   }
                 },
                 child: Text("Sign Up", style: TextStyle(color: Colors.white70)),

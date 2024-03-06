@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:hack1/Home.dart';
 import 'package:hack1/signup1.dart';
 
 class LoginTwoPage extends StatelessWidget {
@@ -183,10 +184,10 @@ class LoginTwoPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
-                radius: 40.0,
-                backgroundColor: Colors.blue.shade600,
-                child: const Icon(Icons.person),
+              const CircleAvatar(
+                maxRadius: 50,
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.train, size: 80, color: Colors.black),
               ),
             ],
           ),
@@ -202,6 +203,10 @@ class LoginTwoPage extends StatelessWidget {
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()), // Navigate to home page
+                  );
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Valid Form. Perform action here.')),
