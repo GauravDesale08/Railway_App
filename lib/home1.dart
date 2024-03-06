@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hack1/paymentpage.dart';
 
 class TravelHome extends StatelessWidget {
   const TravelHome({Key? key}) : super(key: key);
@@ -77,7 +78,17 @@ class _HomeScreenTopState extends State<HomeScreenTop> {
                         ],
                       ),
                       const Spacer(),
-                      const Icon(Icons.settings, color: Colors.white),
+                      InkWell(
+                        onTap: () {
+                          // Navigate to the settings screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PaymentPage()),
+                          );
+                        },
+                        child: Icon(Icons.settings, color: Colors.white),
+                      )
+
                     ],
                   ),
                 ),
