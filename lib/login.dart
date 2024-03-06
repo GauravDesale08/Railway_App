@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Authentication
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:hack1/Home.dart';
 import 'package:hack1/signup1.dart';
@@ -6,7 +7,7 @@ import 'package:hack1/signup1.dart';
 class LoginTwoPage extends StatelessWidget {
   static const String path = "lib/src/pages/login/login2.dart";
 
-  const LoginTwoPage({required  key}) : super(key: key);
+  const LoginTwoPage({required Key? key}) : super(key: key);
 
   Widget _buildPageContent(BuildContext context) {
     return Container(
@@ -43,15 +44,15 @@ class LoginTwoPage extends StatelessWidget {
 
   Container _buildLoginForm(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _confirmPasswordController = TextEditingController();
 
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Stack(
         children: <Widget>[
           ClipPath(
-            clipper: RoundedDiagonalPathClipper(),
+            // clipper: RoundedDiagonalPathClipper(),
             child: Container(
               height: 470,
               padding: const EdgeInsets.all(10.0),
@@ -68,6 +69,7 @@ class LoginTwoPage extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextFormField(
+                        controller: _emailController,
                         style: TextStyle(color: Colors.blue),
                         decoration: InputDecoration(
                           hintText: "Email address",
@@ -124,57 +126,6 @@ class LoginTwoPage extends StatelessWidget {
                         color: Colors.blue,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        style: TextStyle(color: Colors.blue),
-                        decoration: InputDecoration(
-                          hintText: "Confirm password",
-                          hintStyle: TextStyle(color: Colors.blue.shade200),
-                          border: InputBorder.none,
-                          icon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please confirm your password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                      child: const Divider(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child: TextButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Forgot Password')),
-                              );
-                            },
-                            child: const Text(
-                              "Forgot Password",
-                              style: TextStyle(color: Colors.black45),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     const SizedBox(height: 10.0),
                   ],
                 ),
@@ -203,15 +154,7 @@ class LoginTwoPage extends StatelessWidget {
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()), // Navigate to home page
-                  );
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Valid Form. Perform action here.')),
-                    );
-                  }
+                  _login(context, _emailController.text, _passwordController.text);
                 },
                 child: const Text("Login", style: TextStyle(color: Colors.white70)),
               ),
@@ -220,6 +163,25 @@ class LoginTwoPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _login(BuildContext context, String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Navigate to home page if login is successful
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } catch (e) {
+      // Show error message if login fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to sign in: $e')),
+      );
+    }
   }
 
   @override
