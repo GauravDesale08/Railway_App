@@ -20,7 +20,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               ProfileHeader(
-                avatar: NetworkImage("https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/"),
+                avatar: NetworkImage("https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"),
                 coverImage: NetworkImage("https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/"),
                 title: "Ramesh Mana",
                 subtitle: "Manager",
@@ -35,7 +35,6 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10.0),
-              const UserInfo(),
               const UserInfo(),
             ],
           ),

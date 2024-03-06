@@ -292,7 +292,7 @@ List<CityCard> cityCards = [
       "500",
       '440'),
   const CityCard(
-      "https://cdn.pixabay.com/photo/2014/07/01/12/35/taxi-cab-381233_960_720.jpg",
+      "https://cdn.pixabay.com/photo/2017/12/10/17/40/prague-3010407_960_720.jpg",
       "Morang",
       "12 Feb",
       "10",

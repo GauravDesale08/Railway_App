@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:hack1/history.dart';
 import 'package:hack1/home1.dart';
 import 'package:hack1/profile.dart';
 
@@ -15,16 +16,13 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     TravelHome(),
-    PlaceholderWidget(color: Colors.green),
+    TripsPage(),
     ProfilePage()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
       body: _pages[_currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
         index: _currentIndex,
