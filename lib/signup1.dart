@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'Home.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:hack1/network_image.dart';
 
-class SignupOnePage extends StatefulWidget {
+import 'Home.dart'; // Import the home page widget
+
+class SignupOnePage extends StatelessWidget {
   static const String path = "lib/src/pages/login/signup1.dart";
 
-  const SignupOnePage({Key? key}) : super(key: key);
+  const SignupOnePage({Key? key});
 
-  @override
-  _SignupOnePageState createState() => _SignupOnePageState();
-}
-
-class _SignupOnePageState extends State<SignupOnePage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-  bool obscurePassword = true;
-  bool obscureConfirmPassword = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPageContent(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade100,
       body: ListView(
@@ -42,6 +31,11 @@ class _SignupOnePageState extends State<SignupOnePage> {
   }
 
   Container _buildLoginForm(BuildContext context) {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController _confirmPasswordController = TextEditingController();
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Stack(
@@ -94,7 +88,7 @@ class _SignupOnePageState extends State<SignupOnePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextFormField(
                         controller: _passwordController,
-                        obscureText: obscurePassword,
+                        obscureText: true,
                         style: TextStyle(color: Colors.blue),
                         decoration: InputDecoration(
                           hintText: "Password",
@@ -103,15 +97,6 @@ class _SignupOnePageState extends State<SignupOnePage> {
                           icon: Icon(
                             Icons.lock,
                             color: Colors.blue,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              obscurePassword ? Icons.visibility : Icons.visibility_off,
-                              color: Colors.blue,
-                            ),
-                            onPressed: () {
-                              _togglePasswordVisibility(context);
-                            },
                           ),
                         ),
                         validator: (value) {
@@ -135,7 +120,7 @@ class _SignupOnePageState extends State<SignupOnePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextFormField(
                         controller: _confirmPasswordController,
-                        obscureText: obscureConfirmPassword,
+                        obscureText: true,
                         style: TextStyle(color: Colors.blue),
                         decoration: InputDecoration(
                           hintText: "Confirm password",
@@ -144,15 +129,6 @@ class _SignupOnePageState extends State<SignupOnePage> {
                           icon: Icon(
                             Icons.lock,
                             color: Colors.blue,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
-                              color: Colors.blue,
-                            ),
-                            onPressed: () {
-                              _toggleConfirmPasswordVisibility(context);
-                            },
                           ),
                         ),
                         validator: (value) {
@@ -194,12 +170,17 @@ class _SignupOnePageState extends State<SignupOnePage> {
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0)),
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    signUpWithEmailAndPassword(context);
+                    // Form is valid, perform signup logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()), // Navigate to home page
+                    );
                   }
                 },
                 child: Text("Sign Up", style: TextStyle(color: Colors.white70)),
@@ -211,60 +192,8 @@ class _SignupOnePageState extends State<SignupOnePage> {
     );
   }
 
-  void _togglePasswordVisibility(BuildContext context) {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
-  }
-
-  void _toggleConfirmPasswordVisibility(BuildContext context) {
-    setState(() {
-      obscureConfirmPassword = !obscureConfirmPassword;
-    });
-  }
-
-  Future<void> signUpWithEmailAndPassword(BuildContext context) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // User signed up successfully, navigate to home page or perform other actions.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } catch (e) {
-      // Handle sign-up errors.
-      print('Failed to sign up: $e');
-      // Show error message to the user.
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to sign up: $e'),
-      ));
-    }
-  }
-}
-
-class RoundedDiagonalPathClipper extends CustomClipper<Path> {
   @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0.0, size.height);
-
-    var firstEndPoint = Offset(size.width / 2, size.height - 30);
-    var firstControlPoint = Offset(size.width / 4, size.height - 53);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
-    var secondEndPoint = Offset(size.width, size.height - 90);
-    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 14);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.close();
-
-    return path;
+  Widget build(BuildContext context) {
+    return _buildPageContent(context);
   }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
