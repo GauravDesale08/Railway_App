@@ -1,49 +1,51 @@
 import 'package:flutter/material.dart';
-// import 'package:hack1/assets.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String path = "lib/src/pages/profile/profile8.dart";
 
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+      backgroundColor: Colors.white, // Set background color to white
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ProfileHeader(
+              avatar: NetworkImage(
+                  "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"),
+              coverImage: NetworkImage(
+                  "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/"),
+              title: "Ramesh Mana",
+              subtitle: "Male",
+              actions: <Widget>[
+                MaterialButton(
+                  color: Colors.white,
+                  shape: const CircleBorder(),
+                  elevation: 0,
+                  child: const Icon(Icons.edit),
+                  onPressed: () {},
+                )
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            const UserInfo(),
+          ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ProfileHeader(
-                avatar: NetworkImage("https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"),
-                coverImage: NetworkImage("https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/"),
-                title: "Ramesh Mana",
-                subtitle: "Manager",
-                actions: <Widget>[
-                  MaterialButton(
-                    color: Colors.white,
-                    shape: const CircleBorder(),
-                    elevation: 0,
-                    child: const Icon(Icons.edit),
-                    onPressed: () {},
-                  )
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              const UserInfo(),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
 class UserInfo extends StatelessWidget {
-  const UserInfo({super.key});
+  const UserInfo({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +75,14 @@ class UserInfo extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       ...ListTile.divideTiles(
-                        color: Colors.grey,
+                        color: Colors.blue,
                         tiles: [
                           const ListTile(
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
                             leading: Icon(Icons.my_location),
-                            title: Text("Location"),
-                            subtitle: Text("Kathmandu"),
+                            title: Text("Last Travel"),
+                            subtitle: Text("Kolkata"),
                           ),
                           const ListTile(
                             leading: Icon(Icons.email),
@@ -94,9 +96,9 @@ class UserInfo extends StatelessWidget {
                           ),
                           const ListTile(
                             leading: Icon(Icons.person),
-                            title: Text("About Me"),
+                            title: Text("Age"),
                             subtitle: Text(
-                                "This is a about me link and you can khow about me in this section."),
+                                "35"),
                           ),
                         ],
                       ),
@@ -119,14 +121,15 @@ class ProfileHeader extends StatelessWidget {
   final String? subtitle;
   final List<Widget>? actions;
 
-  const ProfileHeader(
-      {Key? key,
-        required this.coverImage,
-        required this.avatar,
-        required this.title,
-        this.subtitle,
-        this.actions})
-      : super(key: key);
+  const ProfileHeader({
+    Key? key,
+    required this.coverImage,
+    required this.avatar,
+    required this.title,
+    this.subtitle,
+    this.actions,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -135,13 +138,15 @@ class ProfileHeader extends StatelessWidget {
           height: 200,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: coverImage as ImageProvider<Object>, fit: BoxFit.cover),
+              image: coverImage as ImageProvider<Object>,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         Ink(
           height: 200,
-          decoration: const BoxDecoration(
-            color: Colors.black38,
+          decoration: BoxDecoration(
+            color: Colors.blue, // Change color to blue
           ),
         ),
         if (actions != null)
@@ -164,7 +169,7 @@ class ProfileHeader extends StatelessWidget {
                 image: avatar,
                 radius: 40,
                 backgroundColor: Colors.white,
-                borderColor: Colors.grey.shade300,
+                borderColor: Colors.blue,
                 borderWidth: 4.0,
               ),
               Text(
@@ -193,14 +198,14 @@ class Avatar extends StatelessWidget {
   final double radius;
   final double borderWidth;
 
-  const Avatar(
-      {Key? key,
-        required this.image,
-        this.borderColor = Colors.grey,
-        this.backgroundColor,
-        this.radius = 30,
-        this.borderWidth = 5})
-      : super(key: key);
+  const Avatar({
+    Key? key,
+    required this.image,
+    this.borderColor = Colors.blue,
+    this.backgroundColor,
+    this.radius = 30,
+    this.borderWidth = 5,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

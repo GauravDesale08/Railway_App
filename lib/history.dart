@@ -20,6 +20,7 @@ class _TripsPageState extends State<TripsPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue, // Set the app bar color to blue
         title: const Text('Trips'),
         bottom: TabBar(
           controller: _tabController,
@@ -79,12 +80,12 @@ class UpcomingTripCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              tripDetails['destination'],
+              tripDetails['Train'],
               style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(height: 8),
             Text(
-              'Departure: ${tripDetails['departureDate']}',
+              'Date: ${tripDetails['Date']}',
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],
@@ -121,15 +122,6 @@ class PastTripCard extends StatelessWidget {
               'Dates: ${tripDetails['startDate']} - ${tripDetails['endDate']}',
               style: Theme.of(context).textTheme.subtitle1,
             ),
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber),
-                Text(
-                  tripDetails['rating'] != null ? tripDetails['rating'].toString() : 'N/A',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -139,28 +131,32 @@ class PastTripCard extends StatelessWidget {
 
 List<Map<String, dynamic>> upcomingTrips = [
   {
-    'destination': 'Upcoming Trip 1',
-    'departureDate': '2022-12-31',
+    'Train': 'Dadar - Kolkata',
+    'Date': '2024-03-17',
   },
   {
-    'destination': 'Upcoming Trip 2',
-    'departureDate': '2023-01-15',
+    'Train': 'New Delhi - Chennai',
+    'Date': '2024-03-19',
   },
   // Add more upcoming trips as needed
 ];
 
 List<Map<String, dynamic>> pastTrips = [
   {
-    'destination': 'Past Trip 1',
+    'destination': 'Mumbai-Jammu',
     'startDate': '2022-09-15',
-    'endDate': '2022-09-20',
-    'rating': 4.5,
+    'endDate': '2022-09-18',
   },
   {
-    'destination': 'Past Trip 2',
+    'destination': 'Haryana - Tirupati',
     'startDate': '2022-08-20',
-    'endDate': '2022-08-25',
-    'rating': 5.0,
+    'endDate': '2022-08-22',
   },
   // Add more past trips as needed
 ];
+
+void main() {
+  runApp(MaterialApp(
+    home: TripsPage(),
+  ));
+}
